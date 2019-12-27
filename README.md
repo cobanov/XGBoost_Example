@@ -1,11 +1,10 @@
 # XGBoost_Example
 
 This repository contains an example for XGBoost
+**Author: Mert Cobanoglu**
 
+## XGBoost
 
-##### Author: Mert Cobanoglu
-
-### XGBoost
 ```python
 import xgboost as xgboost
 import pandas as pd
@@ -23,7 +22,9 @@ cv_results = xgb.cv(dtrain=churn_dmatrix, params=params, nfold=4,
 ```
 
 ## Data Prep
+
 ### Label Encoding
+
 ```python
 from sklearn.datasets import load_iris
 from sklearn.preprocessing import LabelEncoder
@@ -35,13 +36,14 @@ data = pd.read_csv("iris.data", names=cols)
 label_encoder = LabelEncoder()
 targets = label_encoder.fit_transform(data["class"])
 
-or 
+or
 
 for cols in data.columns:
     data[cols] = label_encoder.fit_transform(data[cols])
 ```
 
 ### One Hot Encoding
+
 ```python
 from sklearn.preprocessing import OneHotEncoder
 oh_encoder = OneHotEncoder(sparse=False)
@@ -50,7 +52,9 @@ oneho = oh_encoder.fit_transform(targets)
 ```
 
 ## Optimization
+
 ### Cross-Validation with Early Stopping
+
 ```python
 # Create your housing DMatrix: housing_dmatrix
 housing_dmatrix = xgb.DMatrix(data=X, label=y)
@@ -59,12 +63,12 @@ housing_dmatrix = xgb.DMatrix(data=X, label=y)
 params = {"objective":"reg:linear", "max_depth":4}
 
 # Perform cross-validation with early stopping: cv_results
-cv_results = xgb.cv(dtrain=housing_dmatrix, 
-                    params=params, 
-                    early_stopping_rounds=10, 
-                    num_boost_round=50, 
-                    seed=123, 
-                    metrics="rmse", 
+cv_results = xgb.cv(dtrain=housing_dmatrix,
+                    params=params,
+                    early_stopping_rounds=10,
+                    num_boost_round=50,
+                    seed=123,
+                    metrics="rmse",
                     nfold=3,
                     as_pandas=True)
 
@@ -73,14 +77,15 @@ print(cv_results)
 ```
 
 ### L1 Reg
+
 ```python
 l1_params = [1, 10, 100]
 rmes_l1 = []
 
 for reg in l1_params:
     params["alpha"] = reg
-    cv_reults = xgb.cv(dtrain=data, params=params, nfold=4, 
-                       num_boost_round=10, metrics="rmse", 
+    cv_reults = xgb.cv(dtrain=data, params=params, nfold=4,
+                       num_boost_round=10, metrics="rmse",
                        as_pandas=True, seed=123)
     rmses_l1.append(cv_results["test-rmse-mean"].tail(1).values[0])
 ```
@@ -88,23 +93,25 @@ for reg in l1_params:
 ## Fine-Tuning
 
 ### Grid Search
+
 ```python
 housing_dmatrix = xgb.DMatrix(data=X, label=y)
 
 gbm_param_grid = {'colsample_bytree': [0.3, 0.7],
                   'n_estimators': [50],
                   'max_depth': [2, 5]}
-                  
+
 gbm = xgb.XGBRegressor()
-grid_mse = GridSearchCV(param_grid=gbm_param_grid, 
-                        estimator=gbm, 
-                        scoring="neg_mean_squared_error", 
+grid_mse = GridSearchCV(param_grid=gbm_param_grid,
+                        estimator=gbm,
+                        scoring="neg_mean_squared_error",
                         cv=4, verbose=1)
 grid_mse.fit(X, y)
 
 print("Best parameters found: ", grid_mse.best_params_)
 print("Lowest RMSE found: ", np.sqrt(np.abs(grid_mse.best_score_)))
 ```
+
 ### Random Search
 
 ```python
@@ -113,8 +120,8 @@ gbm_param_grid = {'n_estimators': [25],
 
 gbm = xgb.XGBRegressor(n_estimators=10)
 
-randomized_mse = RandomizedSearchCV(param_distributions=gbm_param_grid, 
-                                    estimator=gbm, scoring="neg_mean_squared_error", 
+randomized_mse = RandomizedSearchCV(param_distributions=gbm_param_grid,
+                                    estimator=gbm, scoring="neg_mean_squared_error",
                                     n_iter=5, cv=4, verbose=1)
 randomized_mse.fit(X, y)
 
