@@ -49,7 +49,7 @@ targets = targets.reshape(150, 1)
 oneho = oh_encoder.fit_transform(targets)
 ```
 
-
+## Optimization
 ### Cross-Validation with Early Stopping
 ```python
 # Create your housing DMatrix: housing_dmatrix
