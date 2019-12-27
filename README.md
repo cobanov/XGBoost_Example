@@ -5,6 +5,24 @@ This repository contains an example for XGBoost
 
 ##### Author: Mert Cobanoglu
 
+### XGBoost
+```python
+import xgboost as xgboost
+import pandas as pd
+
+churn_data = pd.read_csv("classification_data.csv")
+
+churn_dmatrix = xgb.DMatrix(data=churn_data.iloc[:, -1],
+                            label=churn_data.month_5_still_here)
+
+params = {"objective":"binary:logistic", max_depth=4}
+
+cv_results = xgb.cv(dtrain=churn_dmatrix, params=params, nfold=4,
+                    num_boost_round=10, metrics="error", as_pandas=True)
+
+```
+
+## Data Prep
 ### Label Encoding
 ```python
 from sklearn.datasets import load_iris
@@ -31,22 +49,6 @@ targets = targets.reshape(150, 1)
 oneho = oh_encoder.fit_transform(targets)
 ```
 
-### XGBoost
-```python
-import xgboost as xgboost
-import pandas as pd
-
-churn_data = pd.read_csv("classification_data.csv")
-
-churn_dmatrix = xgb.DMatrix(data=churn_data.iloc[:, -1],
-                            label=churn_data.month_5_still_here)
-
-params = {"objective":"binary:logistic", max_depth=4}
-
-cv_results = xgb.cv(dtrain=churn_dmatrix, params=params, nfold=4,
-                    num_boost_round=10, metrics="error", as_pandas=True)
-
-```
 
 ### Cross-Validation with Early Stopping
 ```python
