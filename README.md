@@ -77,7 +77,9 @@ rmes_l1 = []
 
 for reg in l1_params:
     params["alpha"] = reg
-    cv_reults = xgb.cv(dtrain= , params=params, nfold=4, num_boost_round=10, metrics="rmse", as_pandas=True, seed=123)
+    cv_reults = xgb.cv(dtrain=data, params=params, nfold=4, 
+                       num_boost_round=10, metrics="rmse", 
+                       as_pandas=True, seed=123)
     rmses_l1.append(cv_results["test-rmse-mean"].tail(1).values[0])
 ```
 
@@ -92,7 +94,10 @@ gbm_param_grid = {'colsample_bytree': [0.3, 0.7],
                   'max_depth': [2, 5]}
                   
 gbm = xgb.XGBRegressor()
-grid_mse = GridSearchCV(param_grid=gbm_param_grid, estimator=gbm, scoring="neg_mean_squared_error", cv=4, verbose=1)
+grid_mse = GridSearchCV(param_grid=gbm_param_grid, 
+                        estimator=gbm, 
+                        scoring="neg_mean_squared_error", 
+                        cv=4, verbose=1)
 grid_mse.fit(X, y)
 
 print("Best parameters found: ", grid_mse.best_params_)
