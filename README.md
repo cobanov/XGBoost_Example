@@ -61,3 +61,25 @@ for reg in l1_params:
     cv_reults = xgb.cv(dtrain= , params=params, nfold=4, num_boost_round=10, metrics="rmse", as_pandas=True, seed=123)
     rmses_l1.append(cv_results["test-rmse-mean"].tail(1).values[0])
 ```
+
+## Parameters
+
+**learning_rate:** step size shrinkage used to prevent overfitting. Range is [0,1]
+
+**max_depth:** determines how deeply each tree is allowed to grow during any boosting round.
+
+**subsample:** percentage of samples used per tree. Low value can lead to underfitting.
+
+**colsample_bytree:** percentage of features used per tree. High value can lead to overfitting.
+
+**n_estimators:** number of trees you want to build.
+
+**objective:** determines the loss function to be used like reg:linear for regression problems, reg:logistic for classification problems with only decision, binary:logistic for classification problems with probability.
+
+### Reg. Parameters
+
+**gamma:** controls whether a given node will split based on the expected reduction in loss after the split. A higher value leads to fewer splits. Supported only for tree-based learners.
+
+**alpha:** L1 regularization on leaf weights. A large value leads to more regularization.
+
+**lambda:** L2 regularization on leaf weights and is smoother than L1 regularization.
