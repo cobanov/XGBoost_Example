@@ -50,7 +50,28 @@ cv_results = xgb.cv(dtrain=churn_dmatrix, params=params, nfold=4,
                     num_boost_round=10, metrics="error", as_pandas=True)
 
 ```
+### Cross-Validation with Early Stopping
+```python
 
+# Create your housing DMatrix: housing_dmatrix
+housing_dmatrix = xgb.DMatrix(data=X, label=y)
+
+# Create the parameter dictionary for each tree: params
+params = {"objective":"reg:linear", "max_depth":4}
+
+# Perform cross-validation with early stopping: cv_results
+cv_results = xgb.cv(dtrain=housing_dmatrix, 
+                    params=params, 
+                    early_stopping_rounds=10, 
+                    num_boost_round=50, 
+                    seed=123, 
+                    metrics="rmse", 
+                    nfold=3,
+                    as_pandas=True)
+
+# Print cv_results
+print(cv_results)
+```
 ### L1 Reg
 ```python
 l1_params = [1, 10, 100]
