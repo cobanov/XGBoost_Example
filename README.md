@@ -1,9 +1,11 @@
-# XGBoost_Example
+# XGBoost Examples
 
-This repository contains an example for XGBoost
-**Author: Mert Cobanoglu**
+<p align="center">
+  <img src="https://raw.githubusercontent.com/dmlc/dmlc.github.io/master/img/logo-m/xgboost.png" width=200>
+</p>
 
-## XGBoost
+<p align="center">This repository contains an example for XGBoost
+<b> - Author: Mert Cobanoglu</b> </p>
 
 ```python
 import xgboost as xgboost
