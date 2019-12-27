@@ -128,7 +128,20 @@ randomized_mse.fit(X, y)
 print("Best parameters found: ", randomized_mse.best_params_)
 print("Lowest RMSE found: ", np.sqrt(np.abs(randomized_mse.best_score_)))
 ```
+### Pipeline
 
+```python
+from sklearn.feature_extraction import DictVectorizer
+from sklearn.pipeline import Pipeline
+
+X.LotFrontage = X.LotFrontage.fillna(0)
+
+steps = [("ohe_onestep", DictVectorizer(sparse=False)),
+         ("xgb_model", xgb.XGBRegressor())]
+
+xgb_pipeline = Pipeline(steps)
+xgb_pipeline.fit(X.to_dict("records"), y)
+```
 ## Parameters
 
 **learning_rate:** step size shrinkage used to prevent overfitting. Range is [0,1]
