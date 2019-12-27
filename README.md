@@ -6,7 +6,6 @@ This repository contains an example for XGBoost
 ##### Author: Mert Cobanoglu
 
 ### Label Encoding
-
 ```python
 from sklearn.datasets import load_iris
 from sklearn.preprocessing import LabelEncoder
@@ -25,7 +24,6 @@ for cols in data.columns:
 ```
 
 ### One Hot Encoding
-
 ```python
 from sklearn.preprocessing import OneHotEncoder
 oh_encoder = OneHotEncoder(sparse=False)
@@ -34,7 +32,6 @@ oneho = oh_encoder.fit_transform(targets)
 ```
 
 ### XGBoost
-
 ```python
 import xgboost as xgboost
 import pandas as pd
@@ -50,9 +47,9 @@ cv_results = xgb.cv(dtrain=churn_dmatrix, params=params, nfold=4,
                     num_boost_round=10, metrics="error", as_pandas=True)
 
 ```
+
 ### Cross-Validation with Early Stopping
 ```python
-
 # Create your housing DMatrix: housing_dmatrix
 housing_dmatrix = xgb.DMatrix(data=X, label=y)
 
@@ -72,6 +69,7 @@ cv_results = xgb.cv(dtrain=housing_dmatrix,
 # Print cv_results
 print(cv_results)
 ```
+
 ### L1 Reg
 ```python
 l1_params = [1, 10, 100]
@@ -84,25 +82,35 @@ for reg in l1_params:
 ```
 
 ## Fine-Tuning
+
+### Grid Search
+```python
+housing_dmatrix = xgb.DMatrix(data=X, label=y)
+
+gbm_param_grid = {'colsample_bytree': [0.3, 0.7],
+                  'n_estimators': [50],
+                  'max_depth': [2, 5]}
+                  
+gbm = xgb.XGBRegressor()
+grid_mse = GridSearchCV(param_grid=gbm_param_grid, estimator=gbm, scoring="neg_mean_squared_error", cv=4, verbose=1)
+grid_mse.fit(X, y)
+
+print("Best parameters found: ", grid_mse.best_params_)
+print("Lowest RMSE found: ", np.sqrt(np.abs(grid_mse.best_score_)))
+```
 ### Random Search
 
 ```python
-# Create the parameter grid: gbm_param_grid 
 gbm_param_grid = {'n_estimators': [25],
                   'max_depth': range(2, 12)}
 
-# Instantiate the regressor: gbm
 gbm = xgb.XGBRegressor(n_estimators=10)
 
-# Perform random search: grid_mse
 randomized_mse = RandomizedSearchCV(param_distributions=gbm_param_grid, 
                                     estimator=gbm, scoring="neg_mean_squared_error", 
                                     n_iter=5, cv=4, verbose=1)
-
-# Fit randomized_mse to the data
 randomized_mse.fit(X, y)
 
-# Print the best parameters and lowest RMSE
 print("Best parameters found: ", randomized_mse.best_params_)
 print("Lowest RMSE found: ", np.sqrt(np.abs(randomized_mse.best_score_)))
 ```
