@@ -146,6 +146,9 @@ xgb_pipeline.fit(X.to_dict("records"), y)
 ### Visualization
 
 ```python
+from xgboost import plot_importance, plot_tree
+import graphviz
+import matplotlib.pyplot as plt
 
 xgb.plot_importance(xg_reg)
 xgb.plot_tree(xg_reg)
