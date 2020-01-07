@@ -2,7 +2,7 @@
   <img src="https://raw.githubusercontent.com/dmlc/dmlc.github.io/master/img/logo-m/xgboost.png" width=300>
 </p>
 
-<p align="center">This repository contains an example for XGBoost
+<p align="center">This repository contains helper scripts for XGBoost
 <b> - Author: Mert Cobanoglu</b> </p>
 
 ```python
