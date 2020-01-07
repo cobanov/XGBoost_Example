@@ -142,6 +142,16 @@ steps = [("ohe_onestep", DictVectorizer(sparse=False)),
 xgb_pipeline = Pipeline(steps)
 xgb_pipeline.fit(X.to_dict("records"), y)
 ```
+
+### Visualization
+
+```python
+
+xgb.plot_importance(xg_reg)
+xgb.plot_tree(xg_reg)
+
+```
+
 ## Parameters
 
 **learning_rate:** step size shrinkage used to prevent overfitting. Range is [0,1]
